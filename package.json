@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "description": "App to analyze stock market",
   "main": "server.js",
-  "author": "Scotch",
+  "author": "Katie Broida",
+  "scripts": {
+    "start": "supervisor app.js"
+  },
   "dependencies": {
     "body-parser": "~1.5.2",
     "express": "~4.7.2",
@@ -11,5 +14,8 @@
     "morgan": "~1.2.2",
     "oauth": "^0.9.14",
     "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "supervisor": "~0.7.1"
   }
 }
