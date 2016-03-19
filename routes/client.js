@@ -1,8 +1,8 @@
 exports.index = function(req, res){
-  res.render('layout');
+  res.render('index');
 };
 
-exports.partials = function (req, res) {
-  var name = req.params.name;
-  res.render('partials/' + name);
-};
+// exports.partials = function (req, res) {
+//   var name = req.params.name;
+//   res.render('partials/' + name);
+// };
