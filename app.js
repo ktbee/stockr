@@ -7,8 +7,7 @@ var exphbs  = require('express-handlebars');
 
 // configuration ===========================
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
-app.set('view engine', 'handlebars');
+app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
 app.use(bodyParser.urlencoded({'extended':'true'}));            // parse application/x-www-form-urlencoded
@@ -19,8 +18,9 @@ app.use(methodOverride());
 var client = require('./routes/client.js');
 var server = require('./routes/server.js');
 
+//app.use('/', server);
 app.get('/', client.index);
-// app.get('/partials/:name', routes.partials);
+app.get('/partials/:name', client.partials);
 
 app.listen(8080);
 console.log("App listening on port 8080");

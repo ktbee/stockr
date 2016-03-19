@@ -2,20 +2,22 @@
   "name": "stockr",
   "version": "0.0.0",
   "description": "App to analyze stock market",
+  "repository": "https://github.com/ktbee/stockr",
   "main": "server.js",
   "author": "Katie Broida",
+  "license": "MIT",
   "scripts": {
     "start": "supervisor app.js"
   },
   "dependencies": {
+    "angular-route": "^1.5.2",
     "body-parser": "~1.5.2",
+    "ejs": "^2.4.1",
     "express": "~4.7.2",
-    "express-handlebars": "^3.0.0",
-    "handlebars": "^4.0.5",
+    "jade": "^1.11.0",
     "method-override": "~2.1.2",
     "morgan": "~1.2.2",
-    "oauth": "^0.9.14",
-    "request": "^2.69.0"
+    "oauth": "^0.9.14"
   },
   "devDependencies": {
     "supervisor": "~0.7.1"

@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-var app = require(path.join(__dirname, '../', 'app'));
-var request = require('request');
 var oauth = require('oauth');
 var tradeKingConfig = require(path.join(__dirname, '../', 'config'));
 var tradeking_consumer = new oauth.OAuth(
@@ -18,13 +16,13 @@ var tradeking_consumer = new oauth.OAuth(
 
 router.get("/api/stock/:symbol", function(req,res){
     var url = tradeKingConfig.api_url+'market/ext/quotes.json?symbols=' + req.params.symbol;
+    var results = [];
 
     tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
       function(error, data, response) {
-        // Parse the JSON data
         stock_data = JSON.parse(data);
-        // Display the response
         console.log(stock_data.response); 
+        res.send(stock_data.response);
       } 
     );
 });
