@@ -3,7 +3,6 @@ var app   = express();
 var morgan = require('morgan');             // log requests to the console (express4)
 var bodyParser = require('body-parser');    // pull information from HTML POST (express4)
 var methodOverride = require('method-override'); // simulate DELETE and PUT (express4)
-var exphbs  = require('express-handlebars');
 
 // configuration ===========================
 
@@ -18,7 +17,7 @@ app.use(methodOverride());
 var client = require('./routes/client.js');
 var server = require('./routes/server.js');
 
-//app.use('/', server);
+app.use('/', server);
 app.get('/', client.index);
 app.get('/partials/:name', client.partials);
 
