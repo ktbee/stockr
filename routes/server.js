@@ -14,19 +14,20 @@ var tradeking_consumer = new oauth.OAuth(
 
 // routes ==================================
 
-router.get("/api/stock/:symbol", function(req,res){
+router.get('/api/stock/:symbol', function(req,res){
     var url = tradeKingConfig.api_url+'market/ext/quotes.json?symbols=' + req.params.symbol;
     var results = [];
 
     tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
       function(error, data, response) {
-        stock_data = JSON.parse(data);
-        console.log(stock_data.response); 
-        res.send(stock_data.response);
+        results = JSON.parse(data); 
+        console.log(error);
+        res.send(results.response);
       } 
     );
 });
 
+module.exports = router;
 
 
 
