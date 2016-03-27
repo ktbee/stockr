@@ -1,8 +1,8 @@
 var stockrControllers = angular.module('stockrControllers', []);
 
-stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams', 
+stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     function ($scope, $http, $routeParams) {
-  
+
   $scope.symbol = $routeParams.symbol;
   $scope.startdate = $routeParams.startdate;
   $scope.enddate = $routeParams.enddate;
@@ -27,5 +27,4 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
 
 
 }]);
-
 
