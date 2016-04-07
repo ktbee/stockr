@@ -7,6 +7,14 @@ stockrApp.config(['$routeProvider',
         templateUrl: 'partials/stockData.jade',
         controller: 'StockCtrl'
       }).
+      when('/stock/:symbol/:startdate/:enddate', {
+        templateUrl: 'partials/stockData.jade',
+        controller: 'StockCtrl'
+      }).
+      when('/', {
+        templateUrl: 'partials/home.jade',
+        controller: 'StockCtrl'
+      }).
       otherwise({
         redirectTo: '/'
       });

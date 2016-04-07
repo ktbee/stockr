@@ -15,8 +15,21 @@ var tradeking_consumer = new oauth.OAuth(
 // routes ==================================
 
 router.get('/api/stock/:symbol', function(req,res){
-    var url = tradeKingConfig.api_url+'market/ext/quotes.json?symbols=' + req.params.symbol;
+    var url = tradeKingConfig.api_url+'/ext/quotes.json?symbols=' + req.params.symbol;
     var results = [];
+
+    tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
+      function(error, data, response) {
+        results = JSON.parse(data); 
+        console.log(error);
+        res.send(results.response);
+      } 
+    );
+});
+
+router.get('/api/stock/:symbol/:startdate/:enddate', function(req,res){
+    var url = tradeKingConfig.api_url+'/timesales.json?symbols=' + req.params.symbol + '&startdate=' +  req.params.startdate + '&enddate=' + req.params.enddate + "&interval=5min";
+    var results = []; 
 
     tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
       function(error, data, response) {
