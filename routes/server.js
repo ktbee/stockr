@@ -19,9 +19,12 @@ router.get('/api/stock/:symbol', function(req,res){
     var results = [];
 
     tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
-      function(error, data, response) {
-        results = JSON.parse(data); 
-        console.log(error);
+      function(error, data, response) { 
+        if(error){
+          console.log("Error: " + error);
+        }
+
+        results = JSON.parse(data);
         res.send(results.response);
       } 
     );
@@ -33,9 +36,13 @@ router.get('/api/stock/:symbol/:startdate/:enddate', function(req,res){
 
     tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
       function(error, data, response) {
-        results = JSON.parse(data); 
-        console.log(error);
+        if(error){
+          console.log("Error: " + error);
+        }
+
+        results = JSON.parse(data);
         res.send(results.response);
+        console.log(results.response);
       } 
     );
 });

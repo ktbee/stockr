@@ -6,8 +6,26 @@ html(ng-app="stockrApp")
     title Stockr App
     link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
   body(class="container")
-    h1 Welcome to Stockr
-    div(ng-view)
+    div(ng-controller="StockCtrl")
+        h1 Welcome to Stockr
+        div(class="col-lg-3" style="border-right: solid 2px gainsboro")
+            h2 Choose what you want to compare
+            form(action="/#/stock/quote")
+                div(class="form-group")
+                    h3 Enter your stock symbol
+                    input(type="text" placeholder="AAPL ..." class="form-control input-lg" ng-model="formData.symbol")
+                    br
+                    h3 What time period are you interested in?
+                    input(type="date" id="startdate" class="form-control input-lg" ng-model="formData.startdate")
+                    br
+                    button(type="submit" class="btn btn-primary btn-lg" ng-click="getQuote()") Compare
+
+        div(class="col-lg-9")
+            h2 Stock symbol: {{symbol}}
+            gh-visualization(val="data")
+            div(ng-repeat="stock in stockData.quotes.quote")
+                p(style="display:block; margin:1em;") stock data: {{stock.last}}
+
 
     script(src='http://code.jquery.com/jquery-1.11.2.min.js')
     script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
