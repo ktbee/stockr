@@ -44,9 +44,13 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     }).then(function successCallback(response) {
         $scope.stockData = response.data;
         $scope.symbol = response.data[0].symbol;
-        response.data.forEach(function(response, index){
-          $scope.stockChartData[index] = {"date": response.tradingDay, "lastPrice": response.close};
-        });
+
+        for(var i = 0; i < 14; i++){
+          $scope.stockChartData[i] = {
+            "date": response.data[i].tradingDay,
+            "lastPrice": response.data[i].close};
+        }
+
       }, function errorCallback(response) {
         console.log('Error:' + response);
     });
