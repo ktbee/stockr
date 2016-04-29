@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
+var request = require('request');
 var oauth = require('oauth');
 var tradeKingConfig = require(path.join(__dirname, '../', 'config'));
 var tradeking_consumer = new oauth.OAuth(
@@ -14,36 +15,20 @@ var tradeking_consumer = new oauth.OAuth(
 
 // routes ==================================
 
-router.get('/api/stock/:symbol', function(req,res){
-    var url = tradeKingConfig.api_url+'/ext/quotes.json?symbols=' + req.params.symbol;
+router.get('/api/stock/:symbol/:date', function(req,res){
+    // var url = tradeKingConfig.api_url + '/options/search.json?symbol=' + req.params.symbol + '&query=xdate-eq%3A' + req.params.date;
     var results = [];
+    var apiKey = '15a25e9a3dcdb96937ca7c8c568c5438';
+    var url = 'http://marketdata.websol.barchart.com/getHistory.json?key=' + apiKey + '&symbol=' + req.params.symbol + '&type=daily&startDate=' + req.params.date + '000000';
 
-    tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
-      function(error, data, response) { 
+    request.get(url, function(error, response, data) {
         if(error){
           console.log("Error: " + error);
         }
 
         results = JSON.parse(data);
-        res.send(results.response);
-      } 
-    );
-});
-
-router.get('/api/stock/:symbol/:startdate/:enddate', function(req,res){
-    var url = tradeKingConfig.api_url+'/timesales.json?symbols=' + req.params.symbol + '&startdate=' +  req.params.startdate + '&enddate=' + req.params.enddate + "&interval=5min";
-    var results = []; 
-
-    tradeking_consumer.get(url, tradeKingConfig.access_token, tradeKingConfig.access_secret,
-      function(error, data, response) {
-        if(error){
-          console.log("Error: " + error);
-        }
-
-        results = JSON.parse(data);
-        res.send(results.response);
-        console.log(results.response);
-      } 
+        res.send(results.results);
+      }
     );
 });
 

@@ -17,7 +17,8 @@
     "jade": "^1.11.0",
     "method-override": "~2.1.2",
     "morgan": "~1.2.2",
-    "oauth": "^0.9.14"
+    "oauth": "^0.9.14",
+    "request": "^2.72.0"
   },
   "devDependencies": {
     "supervisor": "~0.7.1"

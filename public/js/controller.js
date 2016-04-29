@@ -8,76 +8,52 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
   $scope.enddate = $routeParams.enddate;
   $scope.stockData = [];
   $scope.formData = [];
+  $scope.stockChartData = [];
 
-  // $scope.getStockSymbol = function(){
-  //   $http.get('/api/stock/' + $scope.symbol)
-  //       .success(function(data) {
-  //           $scope.stockData = data;
-  //           console.log($scope.stockData);
-  //           console.log("if($scope.symbol)");
-  //       })
-  //       .error(function(data) {
-  //           console.log('Error: ' + data);
-  //       });
-  // }
-
-  // if($scope.symbol){
-  //   var symbol = $scope.formData.symbol;
-  //   var startdate = new Date($scope.startdate);
-  //   var startday = startdate.getDate();
-  //   var startmonth = startdate.getMonth() + 1;
-  //   var startyear = startdate.getFullYear();
-  //   var enddate = new Date(startdate);
-  //   enddate.setDate(startday + 5);
-  //   var endday = enddate.getDate();
-  //   var endmonth = enddate.getMonth() + 1;
-  //   var endyear = enddate.getFullYear();
-
-  //   //format dates to work with API call
-  //   startdate = startyear + "-" + startmonth + "-" + startday;
-  //   var enddate = endyear + "-" + endmonth + "-" + endday;
-  //   console.log("start:" + startdate);
-  //   console.log("end:" + enddate);
-
-  //   $http.get('api/stock/' + $scope.symbol + '/' + startdate + '/' + enddate)
-  //       .success(function(data){
-  //           $scope.stockData = data;
-  //           console.log("if($scope.formData)");
-  //           console.log(data);
-  //       })
-  //       .error(function(data){
-  //           console.log('Error:' + data);
-  //       });
-  // }
 
   $scope.getQuote = function(startdate){
+    console.log("getQuote triggered");
     var symbol = $scope.formData.symbol;
-    var startdate = new Date($scope.formData.startdate);
-    var startday = startdate.getDate();
-    var startmonth = startdate.getMonth() + 1;
-    var startyear = startdate.getFullYear();
-    var enddate = new Date(startdate);
-    enddate.setDate(startday + 5);
-    var endday = enddate.getDate();
-    var endmonth = enddate.getMonth() + 1;
-    var endyear = enddate.getFullYear();
+    var queryDate = new Date($scope.formData.startdate);
 
-    //format dates to work with API call
-    startdate = startyear + "-" + startmonth + "-" + startday;
-    var enddate = endyear + "-" + endmonth + "-" + endday;
+    //format date to work with API call
+    var queryYear = queryDate.getFullYear();
+    var queryMonth = queryDate.getMonth() + 1;
+    var queryDay = queryDate.getDate();
+
+    queryYear = queryYear.toString();
+    queryMonth = queryMonth.toString();
+    queryDay = queryDay.toString();
+
+    if (queryMonth.length < 2){
+      var leadingZero = "0";
+      queryMonth = leadingZero + queryMonth;
+    }
+
+    if (queryDay.length < 2){
+      var leadingZero = "0";
+      queryDay = leadingZero + queryDay;
+    }
+
+    $scope.date = queryYear + queryMonth + queryDay;
+
 
     $http({
       method: 'GET',
-      url: 'api/stock/' + symbol + '/' + startdate + '/' + enddate
+      url: 'api/stock/' + symbol + '/' + $scope.date
     }).then(function successCallback(response) {
         $scope.stockData = response.data;
-        console.log($scope.stockData);
+        $scope.symbol = response.data[0].symbol;
+        response.data.forEach(function(response, index){
+          $scope.stockChartData[index] = {"date": response.tradingDay, "lastPrice": response.close};
+        });
       }, function errorCallback(response) {
         console.log('Error:' + response);
     });
 
-  };
+    console.log("stockChartData in controller",$scope.stockChartData);
 
+  };// end $scope.getQuote()
 
 }]);
 

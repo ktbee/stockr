@@ -5,6 +5,7 @@ html(ng-app="stockrApp")
     meta(charset='utf8')
     title Stockr App
     link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+
   body(class="container")
     div(ng-controller="StockCtrl")
         h1 Welcome to Stockr
@@ -18,18 +19,22 @@ html(ng-app="stockrApp")
                     h3 What time period are you interested in?
                     input(type="date" id="startdate" class="form-control input-lg" ng-model="formData.startdate")
                     br
-                    button(type="submit" class="btn btn-primary btn-lg" ng-click="getQuote()") Compare
+                    button(type="submit" class="btn btn-primary btn-lg" ng-click="drawChart()") Compare
 
         div(class="col-lg-9")
             h2 Stock symbol: {{symbol}}
-            gh-visualization(val="data")
-            div(ng-repeat="stock in stockData.quotes.quote")
-                p(style="display:block; margin:1em;") stock data: {{stock.last}}
+            div(id="stockChart" stock-chart chart-data="stockChartData" style="margin: 4em;")
+            div(ng-repeat="stock in stockData")
+                p(style="display:block; margin:1em;")
+                    stock trading day: {{stock.tradingDay}}
+                    br
+                    stock closing price: {{stock.close}}
 
 
     script(src='http://code.jquery.com/jquery-1.11.2.min.js')
     script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular-route.min.js')
+    script(src='http://d3js.org/d3.v2.js')
     script(src='js/controller.js')
     script(src='js/app.js')
