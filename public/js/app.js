@@ -51,24 +51,25 @@ stockrApp.directive('stockChart', function($window){
         .y(function(d) { return yScale(d.lastPrice); });
 
 
-      scope.drawChart = function(){
+      scope.showResults = function(){
 
          // remove previously existing lines, if any
         svg.selectAll('.y.axis').remove();
 
+        // get company data
+        scope.getCompanyName();
         scope.getQuote();
 
-        data = scope.stockChartData;
+        // get Flickr photo URLs
+        scope.getPhotos();
 
-        console.log("data before parse", data);
+        data = scope.stockChartData;
 
         if(data){
           data.forEach(function(d) {
             d.date = parseDate(String(d.date));
           });
         }
-
-        console.log("data after parse", data);
 
         // create domains for axis
         xScale.domain(d3.extent(data, function(d) { return d.date; }));
@@ -109,13 +110,8 @@ stockrApp.directive('stockChart', function($window){
 
         console.log("data", data);
 
-      }// end drawChart();
+      }// end show results();
 
-      // scope.$watchCollection('data | json', function (newVal, oldVal) {
-      //   // svg.datum(newVal).call(chart);
-      //   console.log("watch triggered for data");
-      //   // drawChart();
-      // }, true);
 
     }// end link function
   };

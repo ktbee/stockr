@@ -19,17 +19,18 @@ html(ng-app="stockrApp")
                     h3 What time period are you interested in?
                     input(type="date" id="startdate" class="form-control input-lg" ng-model="formData.startdate")
                     br
-                    button(type="submit" class="btn btn-primary btn-lg" ng-click="drawChart()") Compare
+                    h3 Enter your search term (optional)
+                    input(type="text" placeholder="controversy ..." class="form-control input-lg" ng-model="formData.searchTerm")
+                    br
+                    button(type="submit" class="btn btn-primary btn-lg" ng-click="showResults()") Compare
 
         div(class="col-lg-9")
-            h2 Stock symbol: {{symbol}}
+            h2 {{companyName}} ( {{symbol}} )
             div(id="stockChart" stock-chart chart-data="stockChartData" style="margin: 4em;")
-            div(ng-repeat="stock in stockData")
-                p(style="display:block; margin:1em;")
-                    stock trading day: {{stock.tradingDay}}
+            div(id="instagram")
+                div(ng-repeat="url in photoURLs")
+                    img(src="{{url}}")
                     br
-                    stock closing price: {{stock.close}}
-
 
     script(src='http://code.jquery.com/jquery-1.11.2.min.js')
     script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')

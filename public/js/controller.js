@@ -3,17 +3,31 @@ var stockrControllers = angular.module('stockrControllers', []);
 stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     function ($scope, $http, $routeParams) {
 
-  $scope.symbol = $routeParams.symbol;
-  $scope.startdate = $routeParams.startdate;
-  $scope.enddate = $routeParams.enddate;
-  $scope.stockData = [];
   $scope.formData = [];
   $scope.stockChartData = [];
+  $scope.queryDates = [];
+  $scope.symbol;
+  $scope.companyName;
+  $scope.photoURLs = [];
+
+  $scope.getCompanyName = function(){
+    var formSymbol = $scope.formData.symbol;
+
+    $http({
+      method: 'GET',
+      url: '/api/companyInfo/' + formSymbol
+    }).then(function successCallback(response) {
+        $scope.symbol = response.data[0].symbol;
+        $scope.companyName = response.data[0].name;
+
+      }, function errorCallback(response) {
+        console.log('Error:' + response);
+    });
+  }; // end $scope.getCompanyName
 
 
   $scope.getQuote = function(startdate){
-    console.log("getQuote triggered");
-    var symbol = $scope.formData.symbol;
+    var formSymbol = $scope.formData.symbol;
     var queryDate = new Date($scope.formData.startdate);
 
     //format date to work with API call
@@ -35,29 +49,49 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
       queryDay = leadingZero + queryDay;
     }
 
-    $scope.date = queryYear + queryMonth + queryDay;
+    var startDate = queryYear + '-' + queryMonth + '-' + queryDay;
 
 
     $http({
       method: 'GET',
-      url: 'api/stock/' + symbol + '/' + $scope.date
+      url: 'api/stock/' + formSymbol + '/' + startDate
     }).then(function successCallback(response) {
-        $scope.stockData = response.data;
         $scope.symbol = response.data[0].symbol;
-
         for(var i = 0; i < 14; i++){
           $scope.stockChartData[i] = {
             "date": response.data[i].tradingDay,
-            "lastPrice": response.data[i].close};
+            "lastPrice": response.data[i].close
+          };
+          $scope.queryDates[i] = response.data[i].tradingDay;
         }
 
       }, function errorCallback(response) {
         console.log('Error:' + response);
     });
-
-    console.log("stockChartData in controller",$scope.stockChartData);
-
   };// end $scope.getQuote()
+
+  $scope.getPhotos = function(){
+    var startDate = $scope.queryDates[0];
+    var endDate = $scope.queryDates[13];
+
+    $http({
+      method: 'GET',
+      url: 'api/flickr/' + $scope.formData.searchTerm + '/' + startDate + '/' + endDate
+    }).then(function successCallback(response) {
+      var photoInfo = response.data.photos.photo;
+      console.log("photoInfo", photoInfo);
+        photoInfo.forEach( function (value, index){
+          $scope.photoURLs[index] = 'https://farm' + photoInfo[index].farm + '.staticflickr.com/' + photoInfo[index].server + '/' + photoInfo[index].id + '_' +photoInfo[index].secret + '.jpg'
+          console.log("photoInfo item", photoInfo[index]);
+        });
+
+        console.log("flickr urls", $scope.photoURLs);
+
+
+      }, function errorCallback(response) {
+        console.log('Error:' + response);
+    });
+  };// end $scope.getPhotos
 
 }]);
 
