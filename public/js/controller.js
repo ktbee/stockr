@@ -8,7 +8,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
   $scope.queryDates = [];
   $scope.symbol;
   $scope.companyName;
-  $scope.photoURLs = [];
+  $scope.slides = [];
 
   $scope.getCompanyName = function(){
     var formSymbol = $scope.formData.symbol;
@@ -71,6 +71,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
   };// end $scope.getQuote()
 
   $scope.getPhotos = function(){
+    $scope.slides = [];
     var startDate = $scope.queryDates[0];
     var endDate = $scope.queryDates[13];
 
@@ -79,10 +80,12 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
       url: 'api/flickr/' + $scope.formData.searchTerm + '/' + startDate + '/' + endDate
     }).then(function successCallback(response) {
       var photoInfo = response.data.photos.photo;
-      console.log("photoInfo", photoInfo);
+
         photoInfo.forEach( function (value, index){
-          $scope.photoURLs[index] = 'https://farm' + photoInfo[index].farm + '.staticflickr.com/' + photoInfo[index].server + '/' + photoInfo[index].id + '_' +photoInfo[index].secret + '.jpg'
-          console.log("photoInfo item", photoInfo[index]);
+          $scope.slides[index] = {
+            url: 'https://farm' + photoInfo[index].farm + '.staticflickr.com/' + photoInfo[index].server + '/' + photoInfo[index].id + '_' +photoInfo[index].secret + '.jpg',
+            title: photoInfo[index].title
+          };
         });
 
         console.log("flickr urls", $scope.photoURLs);
@@ -92,6 +95,30 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
         console.log('Error:' + response);
     });
   };// end $scope.getPhotos
+
+  // functions for controlling image slider
+  $scope.direction = 'left';
+  $scope.currentIndex = 0;
+
+  $scope.setCurrentSlideIndex = function (index) {
+      $scope.direction = (index > $scope.currentIndex) ? 'left' : 'right';
+      $scope.currentIndex = index;
+  };
+
+  $scope.isCurrentSlideIndex = function (index) {
+      return $scope.currentIndex === index;
+  };
+
+  $scope.prevSlide = function () {
+      $scope.direction = 'left';
+      $scope.currentIndex = ($scope.currentIndex < $scope.slides.length - 1) ? ++$scope.currentIndex : 0;
+  };
+
+  $scope.nextSlide = function () {
+      $scope.direction = 'right';
+      $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.slides.length - 1;
+  };
+  // end functions for controlling image slider
 
 }]);
 
