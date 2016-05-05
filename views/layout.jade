@@ -9,7 +9,10 @@ html(ng-app="stockrApp")
 
   body(class="container")
     div(ng-controller="StockCtrl")
-        h1 Welcome to Stockr
+        h1
+            #[span(class="glyphicon glyphicon-search")]  Stockr
+
+        br
         div(class="col-lg-3" style="border-right: solid 2px gainsboro")
             h2 Choose what you want to compare
             form(action="/#/stock/quote")
@@ -26,21 +29,26 @@ html(ng-app="stockrApp")
                     button(type="submit" class="btn btn-primary btn-lg" ng-click="showResults()") Compare
 
         div(class="col-lg-9")
-            h2 {{companyName}} ( {{symbol}} )
-            div(id="stockChart" stock-chart chart-data="stockChartData" style="margin: 4em;")
+            div(ng-show="!stockChartData.length")
+                p Welcome text
 
-            div(slider class="slider")
-                img(class="slide" ng-repeat="slide in slides" ng-src="{{slide.url}}" ng-hide="!isCurrentSlideIndex($index)")
-                button(class="arrow prev" ng-click="nextSlide()" )
-                    span(class="glyphicon glyphicon-chevron-left")
-                button(class="arrow next" ng-click="prevSlide()" )
-                    span(class="glyphicon glyphicon-chevron-right")
-                nav(class="nav")
-                    div(class="wrapper")
-                        ul(class="dots")
-                            li(class="dot" ng-repeat="slide in slides")
-                                button(href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);")
-            div(class="caption" ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)") {{slide.title}}
+            div(id="search-results" ng-hide="!stockChartData.length")
+
+                h2 {{companyName}} ( {{symbol}} )
+                div(id="stockChart" stock-chart chart-data="stockChartData" style="margin: 4em;")
+
+                div(slider class="slider")
+                    img(class="slide" ng-repeat="slide in slides" ng-src="{{slide.url}}" ng-hide="!isCurrentSlideIndex($index)")
+                    button(class="arrow prev" ng-click="nextSlide()" )
+                        span(class="glyphicon glyphicon-chevron-left")
+                    button(class="arrow next" ng-click="prevSlide()" )
+                        span(class="glyphicon glyphicon-chevron-right")
+                    nav(class="nav")
+                        div(class="wrapper")
+                            ul(class="dots")
+                                li(class="dot" ng-repeat="slide in slides")
+                                    button(href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);")
+                div(class="caption" ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)") {{slide.title}}
 
     script(src='http://code.jquery.com/jquery-1.11.2.min.js')
     script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
