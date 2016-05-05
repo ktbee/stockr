@@ -2,9 +2,19 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var request = require('request');
+var https = require('https');
+var OAuth2 = require('oauth').OAuth2;
 var config = require('../config.js');
 var stockAPIKey = config.stockAPIKey;
 var flickrAPIKey = config.flickrAPIKey;
+var twitterToken = null;
+var twitterOauth2 = new OAuth2(config.twitter.consumerKey, config.twitter.consumerSecret, 'https://api.twitter.com/', null, 'oauth2/token', null);
+
+twitterOauth2.getOAuthAccessToken('', {
+    'grant_type': 'client_credentials'
+  }, function (e, access_token) {
+        twitterToken = access_token;
+});
 
 
 // routes ==================================
@@ -20,8 +30,7 @@ router.get('/api/stock/:symbol/:date', function(req,res){
 
         results = JSON.parse(data);
         res.send(results.results);
-      }
-    );
+    });
 });
 
 router.get('/api/companyInfo/:symbol/', function(req,res){
@@ -37,9 +46,7 @@ router.get('/api/companyInfo/:symbol/', function(req,res){
 
         results = JSON.parse(data);
         res.send(results.results);
-
-      }
-    );
+    });
 });
 
 router.get('/api/flickr/:searchText/:startDate/:endDate', function(req,res){
@@ -53,10 +60,26 @@ router.get('/api/flickr/:searchText/:startDate/:endDate', function(req,res){
 
         results = JSON.parse(data);
         res.send(results);
+    });
+});
 
+router.get('/api/twitter/test', function(req,res){
+    var results = [];
+    var url = 'https://api.twitter.com/1.1/search/tweets.json?q=%40twitterapi';
 
-      }
-    );
+    request.get({
+        url: url,
+        auth: {
+            'bearer': twitterToken
+        }
+    }, function(error, response, data){
+        if(error){
+          console.log("Error: " + error);
+        }
+
+        results = JSON.parse(data);
+        res.send(results);
+    });
 });
 
 

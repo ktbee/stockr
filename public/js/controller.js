@@ -96,7 +96,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     });
   };// end $scope.getPhotos
 
-  // functions for controlling image slider
+  // functions for controlling image slider based on http://onehungrymind.com/build-sweet-photo-slider-angularjs-animate/
   $scope.direction = 'left';
   $scope.currentIndex = 0;
 
