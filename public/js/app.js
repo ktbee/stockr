@@ -54,7 +54,8 @@ stockrApp.directive('stockChart', function($window){
       scope.showResults = function(){
 
          // remove previously existing lines, if any
-        svg.selectAll('.y.axis').remove();
+        svg.selectAll('.axis').remove();
+        svg.selectAll('.line').remove();
 
         // get company data
         scope.getCompanyName();
