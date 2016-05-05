@@ -108,8 +108,6 @@ stockrApp.directive('stockChart', function($window){
          // generate line paths
         var lines = svg.selectAll(".line").data(data).attr("class","line");
 
-        console.log("data", data);
-
       }// end show results();
 
 
