@@ -4,7 +4,7 @@ html(ng-app="stockrApp")
     <base href="/">
     meta(charset='utf8')
     title Stockr App
-    link(rel='stylesheet', href='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
+    link(rel='stylesheet' href='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css')
     link(rel='stylesheet' href='custom.css')
 
   body(class="container")
@@ -32,7 +32,9 @@ html(ng-app="stockrApp")
             div(slider class="slider")
                 img(class="slide" ng-repeat="slide in slides" ng-src="{{slide.url}}" ng-hide="!isCurrentSlideIndex($index)")
                 button(class="arrow prev" ng-click="nextSlide()" )
+                    span(class="glyphicon glyphicon-chevron-left")
                 button(class="arrow next" ng-click="prevSlide()" )
+                    span(class="glyphicon glyphicon-chevron-right")
                 nav(class="nav")
                     div(class="wrapper")
                         ul(class="dots")

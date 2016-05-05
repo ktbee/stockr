@@ -35,8 +35,18 @@ div #stockChart {
     text-align: center;
 }
 
+.slider:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+
 .slide {
-    max-height: 400px;
+    max-height: 300px;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .caption{
@@ -50,37 +60,29 @@ div #stockChart {
     z-index: 1002;
     display: block;
     top: 50%;
-    margin-top: -35px;
-    width: 36px;
-    height: 71px;
+    margin-top: -17px;
     outline: none;
     cursor: pointer;
     background: url(/assets/img/blank.gif) no-repeat;
+    color: #000;
+    opacity: 0.4;
+    transition: 0.2s linear all;
+    border: none;
+    font-size: 2em;
 }
 
 .arrow.prev {
-    opacity: 0.2;
     left: 20px;
-    background-image: url(/assets/img/paddle_prev_999.png);
-    transition: 0.2s linear all;
 }
 
 .arrow.next {
-    opacity: 0.2;
     right: 20px;
-    background-image: url(/assets/img/paddle_next_999.png);
-    transition: 0.2s linear all;
 }
 
-.arrow.prev:hover {
+.arrow:hover {
     opacity: 1;
-    background-image: url(/assets/img/paddle_prev_fff.png);
 }
 
-.arrow.next:hover {
-    opacity: 1;
-    background-image: url(/assets/img/paddle_next_fff.png);
-}
 
 
 
