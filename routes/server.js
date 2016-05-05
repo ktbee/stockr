@@ -63,9 +63,9 @@ router.get('/api/flickr/:searchText/:startDate/:endDate', function(req,res){
     });
 });
 
-router.get('/api/twitter/test', function(req,res){
+router.get('/api/twitter/:searchText/:startDate/:endDate', function(req,res){
     var results = [];
-    var url = 'https://api.twitter.com/1.1/search/tweets.json?q=%40twitterapi';
+    var url = 'https://api.twitter.com/1.1/search/tweets.json?q=' + req.params.searchText; + '%20since%3A' + req.params.startDate + '%20until%3A' + req.params.startDate + '&src=typd';
 
     request.get({
         url: url,
@@ -76,7 +76,7 @@ router.get('/api/twitter/test', function(req,res){
         if(error){
           console.log("Error: " + error);
         }
-
+        console.log(url);
         results = JSON.parse(data);
         res.send(results);
     });
