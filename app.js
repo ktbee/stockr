@@ -1,4 +1,5 @@
-var grunt = require('grunt');
+#!/usr/bin/env
+
 var express  = require('express');
 var app   = express();
 var morgan = require('morgan');             // log requests to the console (express4)

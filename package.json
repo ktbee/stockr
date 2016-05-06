@@ -14,7 +14,6 @@
     "body-parser": "~1.5.2",
     "ejs": "^2.4.1",
     "express": "~4.7.2",
-    "grunt": "^1.0.1",
     "jade": "^1.11.0",
     "method-override": "~2.1.2",
     "morgan": "~1.2.2",
