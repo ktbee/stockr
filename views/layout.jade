@@ -18,13 +18,14 @@ html(ng-app="stockrApp")
             form(action="/#/stock/quote")
                 div(class="form-group")
                     h3 Enter your stock symbol
-                    input(type="text" placeholder="AAPL ..." class="form-control input-lg" ng-model="formData.symbol")
+                    input(type="text" placeholder="AAPL ..." class="form-control input-lg" ng-model="formData.symbol" required)
                     br
                     h3 What time period are you interested in?
-                    input(type="date" id="startdate" class="form-control input-lg" ng-model="formData.startdate")
+                    h4 Pick your start date, and Stockr will show two weeks of data (if available)
+                    input(type="date" id="startdate" class="form-control input-lg" ng-model="formData.startdate" required)
                     br
-                    h3 Enter your search term (optional)
-                    input(type="text" placeholder="controversy ..." class="form-control input-lg" ng-model="formData.searchTerm")
+                    h3 Enter your search terms for Flickr
+                    input(type="text" placeholder="company name, controversy ..." class="form-control input-lg" ng-model="formData.searchTerm" required)
                     br
                     button(type="submit" class="btn btn-primary btn-lg" ng-click="showResults()") Compare
 
@@ -37,6 +38,8 @@ html(ng-app="stockrApp")
                 h2 {{companyName}} ( {{symbol}} )
                 div(id="stockChart" stock-chart chart-data="stockChartData" style="margin: 4em;")
 
+                br
+                h3 Flickr search results
                 div(slider class="slider")
                     img(class="slide" ng-repeat="slide in slides" ng-src="{{slide.url}}" ng-hide="!isCurrentSlideIndex($index)")
                     button(class="arrow prev" ng-click="nextSlide()" )
