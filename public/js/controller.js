@@ -72,6 +72,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
 
   $scope.getPhotos = function(){
     $scope.slides = [];
+    var photoInfo = [];
     var startDate = $scope.queryDates[0];
     var endDate = $scope.queryDates[13];
 
@@ -79,7 +80,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
       method: 'GET',
       url: 'api/flickr/' + $scope.formData.searchTerm + '/' + startDate + '/' + endDate
     }).then(function successCallback(response) {
-      var photoInfo = response.data.photos.photo;
+      photoInfo = response.data.photos.photo;
 
         photoInfo.forEach( function (value, index){
           $scope.slides[index] = {
