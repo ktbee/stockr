@@ -5,6 +5,7 @@ var request = require('request');
 var config = require('../config.js');
 var stockAPIKey = config.stockAPIKey;
 var flickrAPIKey = config.flickrAPIKey;
+var sunlightAPIkey = config.sunlightAPIkey;
 
 
 // routes ==================================
@@ -59,6 +60,23 @@ router.get('/api/flickr/:searchText/:startDate/:endDate', function(req,res){
     );
 });
 
+
+
+router.get('/api/sunlight/:date', function(req,res){
+    var results = [];
+    var url = 'http://capitolwords.org/api/1/phrases.json?entity_type=date&entity_value=' + req.params.date + '&apikey=' + sunlightAPIkey;
+
+    request.get(url, function(error, response, data) {
+        if(error){
+          console.log("Error: " + error);
+        }
+
+        results = JSON.parse(data);
+        res.send(results);
+
+      }
+    );
+});
 
 module.exports = router;
 
