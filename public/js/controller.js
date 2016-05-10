@@ -9,6 +9,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
   $scope.symbol;
   $scope.companyName;
   $scope.slides = [];
+  $scope.congressWords = [];
 
   $scope.getCompanyName = function(){
     var formSymbol = $scope.formData.symbol;
@@ -74,7 +75,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     $scope.slides = [];
     var photoInfo = [];
     var startDate = $scope.queryDates[0];
-    var endDate = $scope.queryDates[13];
+    var endDate = $scope.queryDates[$scope.queryDates.length - 1];
 
     $http({
       method: 'GET',
@@ -88,9 +89,6 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
             title: photoInfo[index].title
           };
         });
-
-        console.log("flickr urls", $scope.photoURLs);
-
 
       }, function errorCallback(response) {
         console.log('Error:' + response);
@@ -120,6 +118,79 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
       $scope.currentIndex = ($scope.currentIndex > 0) ? --$scope.currentIndex : $scope.slides.length - 1;
   };
   // end functions for controlling image slider
+
+  $scope.getCongressWords = function () {
+    console.log("$scope.queryDates",$scope.queryDates);
+
+    $http({
+        method: 'GET',
+        url: 'api/sunlight/' + $scope.queryDates[0]
+      }).then(function successCallback(response) {
+        congressData = response.data;
+        console.log("$scope.queryDates[0]",$scope.queryDates[0])
+        console.log("congressData",congressData);
+
+        congressData.forEach(function (value, index) {
+          $scope.congressWords.push(
+          {
+            "text": congressData[index].ngram,
+            "size": congressData[index].count
+          });
+        }); // end congressData.forEach
+
+        console.log("$scope.congressWords", $scope.congressWords);
+
+        }, function errorCallback(response) {
+          console.log('Error:' + response);
+      });
+
+    // I will need to figure out how to search the Sunlight API for certain dates and concatenate the results so words aren't repeated
+    // For now I am just doing one date
+    // $scope.queryDates.forEach( function (value, index) {
+    //  grab data for each day and add it to $scope.congressWords
+    // }); // end $scope.queryDates.forEach
+
+  }; // end $scope.getCongressWords
+
+  // $scope.drawCongressWords based on http://bl.ocks.org/ericcoopey/6382449
+  $scope.drawCongressWords = function () {
+    var color = d3.scale.linear()
+            .domain([0,1,2,3,4,5,6,10,15,20,100])
+            .range(["#ddd", "#ccc", "#bbb", "#aaa", "#999", "#888", "#777", "#666", "#555", "#444", "#333", "#222"]);
+
+    d3.layout.cloud().size([800, 300])
+            .words($scope.congressWords)
+            .rotate(0)
+            .fontSize(function(d) { return (d.size * 2); })
+            .on("end", draw)
+            .start();
+
+    function draw(words) {
+        if(d3.select('#wordcloud-svg') != undefined){
+          d3.select('#wordcloud-svg').remove();
+        }
+
+        d3.select("#congress-words").append("svg")
+                .attr("id","wordcloud-svg")
+                .attr("width", 850)
+                .attr("height", 350)
+                .attr("class", "wordcloud")
+                .append("g")
+                // without the transform, words words would get cutoff to the left and top, they would
+                // appear outside of the SVG area
+                .attr("transform", "translate(320,200)")
+                .selectAll("text")
+                .data(words)
+                .enter().append("text")
+                .style("font-size", function(d) { return (d.size * 10) + "px"; })
+                .style("margin","40px")
+                .style("fill", function(d, i) { return color(i); })
+                .attr("transform", function(d) {
+                    return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")";
+                })
+                .text(function(d) { return d.text; });
+    }
+  }; // end $scope.drawCongressWords
 
 }]);
 

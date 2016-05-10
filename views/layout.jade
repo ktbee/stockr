@@ -52,14 +52,17 @@ html(ng-app="stockrApp")
                                 li(class="dot" ng-repeat="slide in slides")
                                     button(href="#" ng-class="{'active':isCurrentSlideIndex($index)}" ng-click="setCurrentSlideIndex($index);")
                 div(class="caption" ng-repeat="slide in slides" ng-hide="!isCurrentSlideIndex($index)") {{slide.title}}
+                br
+                h3 Congress Word Cloud for {{queryDates[0]}}
+                div(id="congress-words")
+
 
     script(src='http://code.jquery.com/jquery-1.11.2.min.js')
     script(src='http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular.min.js')
     script(src='https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.2/angular-route.min.js')
     script(src='http://d3js.org/d3.v2.js')
-    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.min.js")
-    script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-touch.min.js")
-    script (src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js")
+    script(src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.10.3/TweenMax.min.js")
+    script(src='js/d3.layout.cloud.js')
     script(src='js/controller.js')
     script(src='js/app.js')

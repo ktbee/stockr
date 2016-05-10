@@ -64,6 +64,10 @@ stockrApp.directive('stockChart', function($window){
         // get Flickr photo URLs
         scope.getPhotos();
 
+        // get Congress word data
+        scope.getCongressWords();
+        scope.drawCongressWords();
+
         data = scope.stockChartData;
 
         if(data){
