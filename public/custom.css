@@ -157,3 +157,9 @@ NAV
 
 
 /*** end Slider CSS ***/
+
+#word-cloud-legend{
+  border: solid black 1px;
+  width: 300px;
+  padding: .5em;
+}

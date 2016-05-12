@@ -120,7 +120,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
   // end functions for controlling image slider
 
   $scope.getCongressWords = function () {
-    console.log("$scope.queryDates",$scope.queryDates);
+    // $scope.congressWords = [];
 
     $http({
         method: 'GET',
@@ -161,7 +161,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
     d3.layout.cloud().size([800, 300])
             .words($scope.congressWords)
             .rotate(0)
-            .fontSize(function(d) { return (d.size * 2); })
+            .fontSize(function(d) { return (d.size * 8); })
             .on("end", draw)
             .start();
 
@@ -172,7 +172,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
 
         d3.select("#congress-words").append("svg")
                 .attr("id","wordcloud-svg")
-                .attr("width", 850)
+                .attr("width", 900)
                 .attr("height", 350)
                 .attr("class", "wordcloud")
                 .append("g")
@@ -182,7 +182,7 @@ stockrControllers.controller('StockCtrl', ['$scope', '$http', '$routeParams',
                 .selectAll("text")
                 .data(words)
                 .enter().append("text")
-                .style("font-size", function(d) { return (d.size * 10) + "px"; })
+                .style("font-size", function(d) { return (d.size) + "px"; })
                 .style("margin","40px")
                 .style("fill", function(d, i) { return color(i); })
                 .attr("transform", function(d) {
