@@ -31,7 +31,12 @@ html(ng-app="stockrApp")
 
         div(class="col-lg-9")
             div(ng-show="!stockChartData.length")
-                p Welcome text
+                h2 Welcome to Stockr
+                h3 A correlation calculator and hunch cruncher
+                br
+                p A stock's performance can vary, and it's not always obvious why. This app allows you to explore possible connections and correlations between a stock's movement and events outside of the New York Stock Exchange.
+
+                p Have a feeling the topics discussed in Congress caused your favorite stock's price to plummet? Noticed that some social network buzz has been helping your brand? Use Stockr to check if there's any evidence behind those feelings ... or not.
 
             div(id="search-results" ng-hide="!stockChartData.length")
 
